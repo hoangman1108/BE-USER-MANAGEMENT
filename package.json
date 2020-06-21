@@ -1,0 +1,19 @@
+{
+  "name": "user-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoangman1108/BE-USER-MANAGEMENT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoangman1108/BE-USER-MANAGEMENT/issues"
+  },
+  "homepage": "https://github.com/hoangman1108/BE-USER-MANAGEMENT#readme"
+}
