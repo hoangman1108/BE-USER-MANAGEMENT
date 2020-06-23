@@ -14,6 +14,7 @@ var MongoStore = mongo(session);
 const app = express();
 const mongoUrl = process.env.DATA;
 mongoose.Promise = bluebird;
+
 mongoose.connect(mongoUrl,{useNewUrlParser: true,useCreateIndex: true, useUnifiedTopology: true}).then(
     ()=>{
         console.log("connect success");
@@ -24,7 +25,7 @@ mongoose.connect(mongoUrl,{useNewUrlParser: true,useCreateIndex: true, useUnifie
 })
 
 
-const routes = require('./routes/index');
+const routes = require('./routes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

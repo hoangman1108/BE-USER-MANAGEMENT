@@ -1,9 +1,8 @@
 "use strict";
 
 const {Request, Response, NextFunction} = require('express');
-
 const Joi = require('joi');
-
+const userService = require('../services/user.service');
 const userSchema = Joi.object().keys({
     username: Joi.string().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
@@ -12,7 +11,15 @@ const userSchema = Joi.object().keys({
 });
 
 class Validation {
-    static user(req,res,next){
+    static async user(req,res,next){
+        var temp = await userService.readUser(req.body.username);
+        console.log(temp)
+        if(temp){
+            console.log("Exit")
+            res.status(403).json({
+                message:"username is exists"
+            })
+        }
         Joi.validate(req.body,userSchema,(errors)=>{
             if(errors){
                 res.status(422).json({
