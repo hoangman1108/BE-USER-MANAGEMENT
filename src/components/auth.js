@@ -1,6 +1,7 @@
 "use strict";
 const bcrypt = require('bcrypt');
-
+const userService = require('../services/user.service');
+var {AppError} = require('../components/error');
 module.exports = {
     hashPassword: async (password) => {
 
@@ -12,5 +13,14 @@ module.exports = {
             });
         })
         return hashedPassword;
+    },
+    User:async (req,res,next)=>{
+        const value = await userService.readUser(req.body.username);
+        if(value === null){
+            next();
+        }else{
+            res.json({message: "Exit value"})
+        }
+
     }
 }
