@@ -1,23 +1,19 @@
-"use strict";
-const express = require('express');
-class AppError extends Error{
-    statusCode;
-    status;
+module.exports = class AppError extends Error {
+  constructor (message, status) {
+  
+    // Calling parent constructor of base Error class.
+    super(message);
+    
+    // Saving class name in the property of our custom error as a shortcut.
+    this.name = this.constructor.name;
 
-    constructor(message, statusCode){
-        super(message);
-        this.statusCode = statusCode;
-        this.status = message;
-        Error.captureStackTrace(this, this.constructor);
-    }
-}
-
-function errorHandler(err,req,res){
-    if(!err){
-        err = new AppError('Undefined',500);
-    }
-    res.status(err.statusCode).json(err);
-}
-
-module.exports.AppError = AppError;
-module.exports.errorHandler = errorHandler;
+    // Capturing stack trace, excluding constructor call from it.
+    Error.captureStackTrace(this, this.constructor);
+    
+    // You can use any additional properties you want.
+    // I'm going to use preferred HTTP status for this error types.
+    // `500` is the default value if not specified.
+    this.status = status || 500;
+    
+  }
+};

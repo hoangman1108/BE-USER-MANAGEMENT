@@ -1,8 +1,9 @@
 "use strict";
 
-const {Request, Response, NextFunction} = require('express');
 const Joi = require('joi');
-const userService = require('../services/user.service');
+
+const AppError = require('../components/error');
+
 const userSchema = Joi.object().keys({
     username: Joi.string().required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
@@ -14,17 +15,32 @@ const userSchema = Joi.object().keys({
 
 });
 
+const accountSchema = Joi.object().keys({
+    username: Joi.string().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required()
+});
+
 class Validation {
     static async user(req,res,next){
         Joi.validate(req.body,userSchema,(errors)=>{
             if(errors){
-                res.status(422).json({
-                    status:errors
-                })
+                const err = new AppError("Invalid request data",422);
+                next(err);
             }else{
                 next();
             }
         });
+    }
+
+    static async account(req,res,next){
+        Joi.validate(req.body,accountSchema,(errors)=>{
+            if(errors){
+                const err = new AppError("Invalid request data",422);
+                next(err);
+            }else{
+                next();
+            }
+        })
     }
 }
 

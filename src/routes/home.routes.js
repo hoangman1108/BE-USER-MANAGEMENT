@@ -1,9 +1,11 @@
 "use strict";
 const express = require('express');
 const router = express.Router();
+const jwt = require('../utils/jsonwebtoken');
 
-router.get('/',(req,res)=>{
-    res.send("1111");
+router.get('/',jwt.authenticateAccessToken,(req,res)=>{
+    console.log(res.users);
+    res.send(req.user);
 })
 
 module.exports = router;

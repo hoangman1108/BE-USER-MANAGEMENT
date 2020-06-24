@@ -1,6 +1,8 @@
 var { User } = require('../models/user.model');
 const auth = require('../components/auth');
+const password = require('../components/password');
 
+const hash = new password();
 exports.readUsers = async () => {
     return await User.find();
 }
@@ -8,7 +10,7 @@ exports.readUser = async (username) => {
     return await User.findOne({ username });
 }
 exports.createUser = async function (user) {
-    var password = await auth.hashPassword(user.password);
+    var password = await hash.hashPassword(user.password);
     user.password = password;
     var entity = {
         username: user.username,
